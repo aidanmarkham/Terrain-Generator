@@ -10,8 +10,8 @@ namespace TerrainGen
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        
-        Texture2D terrain;
+        private MouseState oldState;
+        Texture2D terrain; // Texture to hold the map
 
         public Game1()
         {
@@ -20,51 +20,51 @@ namespace TerrainGen
             graphics.PreferredBackBufferWidth = 282;
             graphics.PreferredBackBufferHeight = 282;
         }
-
         protected override void Initialize()
         {
 
 
             base.Initialize();
         }
-
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
 
-            terrain = imagify(GraphicsDevice, 2, 0);
+            terrain = imagify(GraphicsDevice, 2, 0, 0); // calls the method that gets the image from the terrain generator
 
         }
-
         protected override void UnloadContent()
         {
             terrain.Dispose();
         }
-
-
-         protected override void Update(GameTime gameTime)
+        protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            MouseState newState = Mouse.GetState();
 
+            if (newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
+            {
+                terrain = imagify(GraphicsDevice, 2, 0, 0);
+            }
+
+            oldState = newState;
             // TODO: Add your update logic here
             base.Update(gameTime);
         }
-
-
         protected override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
-            spriteBatch.Draw(terrain, new Rectangle(-9, -9, 300, 300), Color.White);
+            spriteBatch.Draw(terrain, new Rectangle(-9, -9, 300, 300), Color.White); // Draws the map
             spriteBatch.End();
  
 
         }
-        public static Texture2D imagify(GraphicsDevice graphics, int mode, int colors)
+        public static Texture2D imagify(GraphicsDevice graphics, int mode, int colors, int peaks)
         {
             Texture2D terrain; //Init texture 2d
             TerrainGenerator ter = new TerrainGenerator(); // Create a generated terrain object
@@ -74,7 +74,7 @@ namespace TerrainGen
             }
             else if (mode == 2)
             {
-                ter.generateMountain(1); // generate mountain data
+                ter.generateMountain(peaks); // generate mountain data
             }
 
             terrain = new Texture2D(graphics, 100, 100); // set texture2d to be 100px by 100px
@@ -82,7 +82,7 @@ namespace TerrainGen
             List<Color> data = new List<Color>(); //Init a list to hold the color data
 
             //Loop through the terrain array and add the color values to the list for color data
-            if (colors == 1)
+            if (colors == 1) //Black and White renderer
             {
                 int[,] terarray = ter.getArray();
                 for (int i = 0; i < terarray.GetLength(0); i++)
@@ -93,7 +93,7 @@ namespace TerrainGen
                     }
                 }
             }
-            if (colors == 0)
+            if (colors == 0) // renderer that simply applies tints, meant to nicen up the view in top down mode. 
             {
                 int[,] terarray = ter.getArray();
                 for (int i = 0; i < terarray.GetLength(0); i++)

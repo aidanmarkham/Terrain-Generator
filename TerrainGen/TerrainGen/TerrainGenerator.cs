@@ -7,11 +7,12 @@ namespace TerrainGen
 {
     class TerrainGenerator
     {
-        int[,] terrain = new int[100, 100];
-        Random rand = new Random();
-        double ROUGH_SCALE = 5;
-        int ITERATIONS = 255;
-        public void generateRandom()
+        // generates terrain on a 100x100 map
+        int[,] terrain = new int[100, 100]; // 2D array for the map
+        Random rand = new Random(); // Random object
+        double ROUGH_SCALE = 5; //Scale of the object - steepness of the mountain
+        int ITERATIONS = 255; // distance from the peak
+        public void generateRandom() // Random generation, fills the map with random data.
         {
             for (int i = 0; i < terrain.GetLength(0); i++)
             {
@@ -21,7 +22,7 @@ namespace TerrainGen
                 }
             }
         }
-        public void generateMountain(int seedMode)
+        public void generateMountain(int seedMode) // generates mountains on the map
         {
             if (seedMode == 0) // Random Peaks
             {
@@ -79,7 +80,7 @@ namespace TerrainGen
                 }
             }   
 
-                for (int l = 0; l < ITERATIONS; l++)
+                for (int l = 0; l < ITERATIONS; l++) // iterates the mountaingen code, makes it so that there's slopes
                 {
 
                     for (int i = 3; i < terrain.GetLength(0) - 3; i++)
@@ -88,6 +89,14 @@ namespace TerrainGen
                         {
                             if (terrain[i, j] == (-1 * ((l + 1) - 256)))
                             {
+                                if (terrain[i + 1, j] < terrain[i, j])
+                                {
+                                    terrain[i + 1, j] = (int)(terrain[i, j] - ROUGH_SCALE);
+                                }
+                                if (terrain[i - 1, j] < terrain[i, j])
+                                {
+                                    terrain[i - 1, j] = (int)(terrain[i, j] - ROUGH_SCALE);
+                                }
                                 if (terrain[i, j - 1] < terrain[i, j])
                                 {
                                     terrain[i, j - 1] = (int)(terrain[i, j] - ROUGH_SCALE);
@@ -95,14 +104,6 @@ namespace TerrainGen
                                 if (terrain[i, j + 1] < terrain[i, j])
                                 {
                                     terrain[i, j + 1] = (int)(terrain[i, j] - ROUGH_SCALE);
-                                }
-                                if (terrain[i - 1, j] < terrain[i, j])
-                                {
-                                    terrain[i - 1, j] = (int)(terrain[i, j] - ROUGH_SCALE);
-                                }
-                                if (terrain[i + 1, j] < terrain[i, j])
-                                {
-                                    terrain[i + 1, j] = (int)(terrain[i, j] - ROUGH_SCALE);
                                 }
                             }
                         }
