@@ -11,6 +11,7 @@ namespace TerrainGen
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private MouseState oldState;
+        private KeyboardState oldKeyboardState;
         Texture2D terrain; // Texture to hold the map
 
         public Game1()
@@ -44,13 +45,30 @@ namespace TerrainGen
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             MouseState newState = Mouse.GetState();
-
-            if (newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
+            KeyboardState keyboardstate = Keyboard.GetState();
+            if (keyboardstate.IsKeyDown(Keys.Space) && oldKeyboardState.IsKeyUp(Keys.Space))
             {
-                terrain = imagify(GraphicsDevice, 2, 0, 0);
+                if (keyboardstate.IsKeyDown(Keys.NumPad1))
+                {
+                    terrain = imagify(GraphicsDevice, 2, 0, 0);
+                }
+
+                if (keyboardstate.IsKeyDown(Keys.NumPad2))
+                {
+                    terrain = imagify(GraphicsDevice, 2, 0, 1);
+                }
+
+                if (keyboardstate.IsKeyDown(Keys.NumPad3))
+                {
+                    terrain = imagify(GraphicsDevice, 2, 0, 2);
+                }
+                //mode 0, nothing, 1, random, 2, mountains
+                //colors 1, b&w, 0, mountains with peaks
+                //peaks 0, random peaks, 1, chain peaks, 2, random screen seedS
             }
 
             oldState = newState;
+            oldKeyboardState = keyboardstate;
             // TODO: Add your update logic here
             base.Update(gameTime);
         }

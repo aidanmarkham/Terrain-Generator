@@ -33,12 +33,12 @@ namespace TerrainGen
             }
             if (seedMode == 1) // Chain Peaks
             {
-                int startx = rand.Next(0, 100);
-                int starty = rand.Next(0, 100);
+                int startx = rand.Next(25, 75);
+                int starty = rand.Next(25, 75);
                 terrain[startx, starty] = 255;
                 for (int b = 0; b < 500; b++)
                 {
-                    int direction = rand.Next(0, 4);
+                    int direction = rand.Next(0, 8);
                     Console.WriteLine(direction);
                     if (direction == 0)
                     {
@@ -60,6 +60,27 @@ namespace TerrainGen
                     {
                         startx -= 1;
                         starty += 1;
+                    }
+                    else if (direction == 4)
+                    {
+                        
+                        starty -= 1;
+                    }
+                    else if (direction == 5)
+                    {
+                        
+                        starty += 1;
+
+                    }
+                    else if (direction == 6)
+                    {
+                        startx += 1;
+                        
+                    }
+                    else if (direction == 7)
+                    {
+                        startx -= 1;
+                        
                     }
                     if (startx > 0 && startx < 99 && starty > 0 && starty < 99)
                     {
