@@ -23,3 +23,5 @@ C:\Users\Aidan\Documents\GitHub\TerrainGen\TerrainGen\TerrainGen\bin\Windows\Deb
 C:\Users\Aidan\Documents\GitHub\TerrainGen\TerrainGen\TerrainGen\obj\x86\Debug\TerrainGen.csprojResolveAssemblyReference.cache
 C:\Users\Aidan\Documents\GitHub\TerrainGen\TerrainGen\TerrainGen\obj\x86\Debug\TerrainGen.exe
 C:\Users\Aidan\Documents\GitHub\TerrainGen\TerrainGen\TerrainGen\obj\x86\Debug\TerrainGen.pdb
+C:\Users\Aidan\Documents\GitHub\TerrainGen\TerrainGen\TerrainGen\bin\Windows\Debug\Content\Gui.xnb
+C:\Users\Aidan\Documents\GitHub\TerrainGen\TerrainGen\TerrainGen\bin\Windows\Debug\Content\Readout.xnb

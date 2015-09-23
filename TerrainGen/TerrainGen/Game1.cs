@@ -13,6 +13,8 @@ namespace TerrainGen
         private MouseState oldState;
         private KeyboardState oldKeyboardState;
         Texture2D terrain; // Texture to hold the map
+        int colors = 0;
+        int genmode = 0;
 
         public Game1()
         {
@@ -33,7 +35,7 @@ namespace TerrainGen
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
 
-            terrain = imagify(GraphicsDevice, 2, 0, 0); // calls the method that gets the image from the terrain generator
+            terrain = imagify(GraphicsDevice, 2, 0); // calls the method that gets the image from the terrain generator
 
         }
         protected override void UnloadContent()
@@ -48,23 +50,29 @@ namespace TerrainGen
             KeyboardState keyboardstate = Keyboard.GetState();
             if (keyboardstate.IsKeyDown(Keys.Space) && oldKeyboardState.IsKeyUp(Keys.Space))
             {
-                if (keyboardstate.IsKeyDown(Keys.NumPad1))
-                {
-                    terrain = imagify(GraphicsDevice, 2, 0, 0);
-                }
+                terrain = imagify(GraphicsDevice, genmode, colors);
+                
 
-                if (keyboardstate.IsKeyDown(Keys.NumPad2))
-                {
-                    terrain = imagify(GraphicsDevice, 2, 0, 1);
-                }
-
-                if (keyboardstate.IsKeyDown(Keys.NumPad3))
-                {
-                    terrain = imagify(GraphicsDevice, 2, 0, 2);
-                }
+ 
                 //mode 0, nothing, 1, random, 2, mountains
                 //colors 1, b&w, 0, mountains with peaks
                 //peaks 0, random peaks, 1, chain peaks, 2, random screen seedS
+            }
+            if (keyboardstate.IsKeyDown(Keys.Up))
+            {
+                colors = 1;
+            }
+            if (keyboardstate.IsKeyDown(Keys.Down))
+            {
+                colors = 0;
+            }
+            if (keyboardstate.IsKeyDown(Keys.Left))
+            {
+                genmode = 0;
+            }
+            if (keyboardstate.IsKeyDown(Keys.Right))
+            {
+                genmode = 1;
             }
 
             oldState = newState;
@@ -82,17 +90,17 @@ namespace TerrainGen
  
 
         }
-        public static Texture2D imagify(GraphicsDevice graphics, int mode, int colors, int peaks)
+        public static Texture2D imagify(GraphicsDevice graphics, int mode, int colors)
         {
             Texture2D terrain; //Init texture 2d
             TerrainGenerator ter = new TerrainGenerator(); // Create a generated terrain object
-            if (mode == 1)
+            if (mode == 0)
             {
-                ter.generateRandom(); //  generate random data
+                ter.generateRandomData(); //  generate random data
             }
-            else if (mode == 2)
+            else if (mode == 1)
             {
-                ter.generateMountain(peaks); // generate mountain data
+                ter.generateChain(); // generate mountain data
             }
 
             terrain = new Texture2D(graphics, 100, 100); // set texture2d to be 100px by 100px

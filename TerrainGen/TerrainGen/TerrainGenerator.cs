@@ -12,27 +12,19 @@ namespace TerrainGen
         Random rand = new Random(); // Random object
         double ROUGH_SCALE = 5; //Scale of the object - steepness of the mountain
         int ITERATIONS = 255; // distance from the peak
-        public void generateRandom() // Random generation, fills the map with random data.
+
+        public void generateRandomPeaks() // generates mountains on the map
         {
-            for (int i = 0; i < terrain.GetLength(0); i++)
+            
+            for (int i = 0; i < rand.Next(5, 20); i++)
             {
-                for (int j = 0; j < terrain.GetLength(1); j++)
-                {
-                    terrain[i, j] = rand.Next(0, 256);
-                }
+                terrain[rand.Next(3, 97), rand.Next(3, 97)] = 255;
             }
+            
         }
-        public void generateMountain(int seedMode) // generates mountains on the map
+
+        public void generateChain() 
         {
-            if (seedMode == 0) // Random Peaks
-            {
-                for (int i = 0; i < rand.Next(5, 20); i++)
-                {
-                    terrain[rand.Next(3, 97), rand.Next(3, 97)] = 255;
-                }
-            }
-            if (seedMode == 1) // Chain Peaks
-            {
                 int startx = rand.Next(25, 75);
                 int starty = rand.Next(25, 75);
                 terrain[startx, starty] = 255;
@@ -89,7 +81,7 @@ namespace TerrainGen
                 }
             }
 
-            if (seedMode == 2) // Random Seed
+            public void generateRandomData()
             {
 
                 for (int i = 0; i < terrain.GetLength(0); i++)
@@ -101,36 +93,8 @@ namespace TerrainGen
                 }
             }   
 
-                for (int l = 0; l < ITERATIONS; l++) // iterates the mountaingen code, makes it so that there's slopes
-                {
 
-                    for (int i = 3; i < terrain.GetLength(0) - 3; i++)
-                    {
-                        for (int j = 3; j < terrain.GetLength(1) - 3; j++)
-                        {
-                            if (terrain[i, j] == (-1 * ((l + 1) - 256)))
-                            {
-                                if (terrain[i + 1, j] < terrain[i, j])
-                                {
-                                    terrain[i + 1, j] = (int)(terrain[i, j] - ROUGH_SCALE);
-                                }
-                                if (terrain[i - 1, j] < terrain[i, j])
-                                {
-                                    terrain[i - 1, j] = (int)(terrain[i, j] - ROUGH_SCALE);
-                                }
-                                if (terrain[i, j - 1] < terrain[i, j])
-                                {
-                                    terrain[i, j - 1] = (int)(terrain[i, j] - ROUGH_SCALE);
-                                }
-                                if (terrain[i, j + 1] < terrain[i, j])
-                                {
-                                    terrain[i, j + 1] = (int)(terrain[i, j] - ROUGH_SCALE);
-                                }
-                            }
-                        }
-                    }
-                }
-        }
+
 
         public int[,] getArray()
         {
