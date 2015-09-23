@@ -25,3 +25,4 @@ C:\Users\Aidan\Documents\GitHub\TerrainGen\TerrainGen\TerrainGen\obj\x86\Debug\T
 C:\Users\Aidan\Documents\GitHub\TerrainGen\TerrainGen\TerrainGen\obj\x86\Debug\TerrainGen.pdb
 C:\Users\Aidan\Documents\GitHub\TerrainGen\TerrainGen\TerrainGen\bin\Windows\Debug\Content\Gui.xnb
 C:\Users\Aidan\Documents\GitHub\TerrainGen\TerrainGen\TerrainGen\bin\Windows\Debug\Content\Readout.xnb
+C:\Users\Aidan\Documents\GitHub\TerrainGen\TerrainGen\TerrainGen\bin\Windows\Debug\Content\settings.xnb
