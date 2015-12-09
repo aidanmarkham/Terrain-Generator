@@ -8,95 +8,86 @@ namespace TerrainGen
     class TerrainGenerator
     {
         // generates terrain on a 100x100 map
-        int[,] terrain = new int[100, 100]; // 2D array for the map
-        Random rand = new Random(); // Random object
-        double ROUGH_SCALE = 5; //Scale of the object - steepness of the mountain
-        int ITERATIONS = 255; // distance from the peak
+        float[,] terrain;// 2D array for the map
+        Random rand; // Random object
+        
+        public TerrainGenerator(int scale) {
+            terrain = new float[scale, scale];
+            rand = new Random();
+        }
 
-        public void generateRandomPeaks() // generates mountains on the map
+        public float[,] generateRandomPeaks() // generates mountains on the map
         {
-            
+
             for (int i = 0; i < rand.Next(5, 20); i++)
             {
                 terrain[rand.Next(3, 97), rand.Next(3, 97)] = 255;
             }
-            
+            return terrain;
+
         }
 
-        public void generateChain() 
+
+        public float[,] generatePerlin()
         {
-                int startx = rand.Next(25, 75);
-                int starty = rand.Next(25, 75);
-                terrain[startx, starty] = 255;
-                for (int b = 0; b < 500; b++)
+            int randomSeed = rand.Next(0, 5000000);
+            
+            for (int i = 0; i < terrain.GetLength(0); i++)
+            {
+                for (int j = 0; j < terrain.GetLength(1); j++)
                 {
-                    int direction = rand.Next(0, 8);
-                    Console.WriteLine(direction);
-                    if (direction == 0)
+                    float val = (float)(((NoiseGenerator.Noise(i + randomSeed, j + randomSeed) + 1) / 2) * 255);
+                    if (val > 255)
                     {
-                        startx -= 1;
-                        starty -= 1;
+                        val = 255;
                     }
-                    else if (direction == 1)
-                    {
-                        startx += 1;
-                        starty -= 1;
+                    terrain[i, j] = val;
 
-                    }
-                    else if (direction == 2)
-                    {
-                        startx += 1;
-                        starty += 1;
-                    }
-                    else if (direction == 3)
-                    {
-                        startx -= 1;
-                        starty += 1;
-                    }
-                    else if (direction == 4)
-                    {
-                        
-                        starty -= 1;
-                    }
-                    else if (direction == 5)
-                    {
-                        
-                        starty += 1;
-
-                    }
-                    else if (direction == 6)
-                    {
-                        startx += 1;
-                        
-                    }
-                    else if (direction == 7)
-                    {
-                        startx -= 1;
-                        
-                    }
-                    if (startx > 0 && startx < 99 && starty > 0 && starty < 99)
-                    {
-                        terrain[startx, starty] = 255;
-                    }
                 }
             }
+            return terrain;
+        }
 
-            public void generateRandomData()
+        public float[,] generatePerlin(int seed, int size)
+        {
+
+            NoiseGenerator.Frequency = 0.015 / size;
+
+            for (int i = 0; i < terrain.GetLength(0); i++)
             {
-
-                for (int i = 0; i < terrain.GetLength(0); i++)
+                for (int j = 0; j < terrain.GetLength(1); j++)
                 {
-                    for (int j = 0; j < terrain.GetLength(1); j++)
+                    float val = (float)(((NoiseGenerator.Noise(i + seed, j + seed) + 1) / 2) * 255);
+                    if (val > 255)
                     {
-                        terrain[i, j] = rand.Next(0, 256);
+                        val = 255;
                     }
+                    terrain[i, j] = val;
+
                 }
-            }   
+            }
+            return terrain;
+        }
+
+
+
+        public float[,] generateRandomData()
+        {
+
+            for (int i = 0; i < terrain.GetLength(0); i++)
+            {
+                for (int j = 0; j < terrain.GetLength(1); j++)
+                {
+                    terrain[i, j] = rand.Next(0, 256);
+                }
+            }
+            return terrain;
+        }
 
 
 
 
-        public int[,] getArray()
+        public float[,] getArray()
         {
             return terrain;
         }

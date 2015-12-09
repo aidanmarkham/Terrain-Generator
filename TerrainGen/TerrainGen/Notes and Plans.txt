@@ -2,3 +2,6 @@
 
 Grow Mode - use chain generator, use it to be the perimeter of the island, then "Grow" The island off of that
 Take the snowcap, make it all rgb 1,1,1, then grow the island up off of that.
+
+all black 50% halfs rgb values
+50% grey 50% over = 25% grey
